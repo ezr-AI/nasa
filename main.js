@@ -147,3 +147,35 @@ function navToggle() {
 }
 
 // btn.addEventListener("click", navToggle);
+
+let togels = document.querySelectorAll(".openclose");
+let search = document.querySelector(".search");
+let openstate = "close";
+let searchOpen = document.querySelector(".search-open");
+
+search.addEventListener("animationend", () => {
+  if (openstate === "close") {
+    search.classList.toggle("search-open");
+  }
+});
+
+togels.forEach((togel) => {
+  togel.addEventListener("click", () => {
+    if (openstate === "close") {
+      search.classList.remove("not-active");
+      search.classList.add("active");
+      search.classList.toggle("search-open");
+      openstate = "open";
+    } else {
+      search.classList.remove("active");
+      search.classList.add("not-active");
+      openstate = "close";
+    }
+  });
+});
+
+// search.style.animation = "panelSlideOutLeft 1s ease";
+// search.addEventListener("animationed", () => {
+//   search.classList.toggle("search-open");
+// });
+// openstate = "close";
