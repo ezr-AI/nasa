@@ -55,7 +55,7 @@ containers.forEach((container, index) => {
 });
 
 document.body.addEventListener("click", () => {
-  if (previous !== null) {
+  if (previous !== null && window.innerWidth === 800) {
     containers[previous].querySelector(".content-container").style.display =
       "none";
     previous = null;

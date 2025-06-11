@@ -440,11 +440,11 @@ header {
 .hamburger {
   position: relative;
   display: none;
-  flex-direction: column;
-  color: white;
   cursor: pointer;
   background-color: black;
   border: none;
+  width: 20px;
+  height: 20px;
 }
 
 .hamburger-top,
@@ -454,23 +454,24 @@ header {
   width: 20px;
   height: 2px;
   background: #fff;
-  display: inline-block;
   content: "";
-  position: relative;
+  position: absolute;
+  left: 0;
 }
 
 .hamburger-top {
-  margin-bottom: 5px;
+  top: 0px;
 }
 
 .hamburger-middle {
+  top: 9px;
 }
 .hamburger-bottom {
-  margin-top: 5px;
+  top: 18px;
 }
 
 .open .hamburger-top {
-  margin-bottom: -2px;
+  top: 9px;
   transform: rotate(135deg);
 }
 .open .hamburger-middle {
@@ -479,7 +480,7 @@ header {
 
 .open .hamburger-bottom {
   transform: rotate(-135deg);
-  margin-top: -2px;
+  top: 9px;
 }
 
 .bottom-feeder {
@@ -531,7 +532,7 @@ header {
   }
 
   .hamburger {
-    display: flex;
+    display: block;
   }
 
   .right-flex {
