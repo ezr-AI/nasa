@@ -148,28 +148,24 @@ function navToggle() {
 
 // btn.addEventListener("click", navToggle);
 
-let togels = document.querySelectorAll(".openclose");
+let buttons = document.querySelectorAll(".openclose");
 let search = document.querySelector(".search");
-let openstate = "close";
-let searchOpen = document.querySelector(".search-open");
 
 search.addEventListener("animationend", () => {
-  if (openstate === "close") {
-    search.classList.toggle("search-open");
+  if (search.classList.contains("search-close")) {
+    search.style.visibility = "hidden";
   }
 });
 
-togels.forEach((togel) => {
-  togel.addEventListener("click", () => {
-    if (openstate === "close") {
-      search.classList.remove("not-active");
-      search.classList.add("active");
-      search.classList.toggle("search-open");
-      openstate = "open";
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (search.classList.contains("search-open")) {
+      search.classList.add("search-close");
+      search.classList.remove("search-open");
     } else {
-      search.classList.remove("active");
-      search.classList.add("not-active");
-      openstate = "close";
+      search.classList.remove("search-close");
+      search.style.visibility = "visible";
+      search.classList.add("search-open");
     }
   });
 });

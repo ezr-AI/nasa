@@ -11,6 +11,10 @@
   color: white;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 header {
   background-color: black;
   height: 86.5px;
@@ -511,42 +515,25 @@ header {
 }
 
 .search {
-  height: 0;
-  width: 0;
-  opacity: 0;
-  visibility: hidden;
-  overflow-x: hidden;
-}
-
-/* position: absolute;
-  display: none;
   width: 100vw;
   height: 100vh;
-  left: 0;
-  top: 0;
-  overflow-x: hidden;
-  z-index: 9999;
+  visibility: hidden;
+  position: absolute;
   background-color: white;
-  animation: panelSlideInLeft 1s ease; */
-.active {
-  animation: panelSlideInLeft 1s ease;
-}
-
-.not-active {
-  animation: panelSlideOutLeft 1s ease;
+  z-index: 9999;
 }
 
 .search-open {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  left: 0;
-  top: 0;
-  opacity: 1;
-  visibility: visible;
-  overflow-x: hidden;
-  z-index: 9999;
-  background-color: white;
+  animation: panelSlideInLeft 1s ease;
+}
+
+.search-close {
+  animation: panelSlideOutLeft 1s ease;
+}
+
+.section-2 {
+  height: 730px;
+  background-color: red;
 }
 
 .search-header {
