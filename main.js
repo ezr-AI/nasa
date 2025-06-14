@@ -1,10 +1,83 @@
 let containers = document.querySelectorAll(".container");
 let navButtons = document.querySelectorAll(".nav-button");
-let focusable = document.querySelectorAll(".focusable, li");
+let focusable = document.querySelectorAll(".focusable, li, .search-wrapper");
 let contentLeft = document.querySelector(".content-left");
 let contentRight = document.querySelector(".content-right");
 let previous = null;
 let menuState = null;
+let currentButton = null;
+let nasaLive = document.getElementById("nasalive");
+let maintext = document.querySelector(".maintext");
+let searchBig = document.getElementById("searchbar");
+// let content = document.querySelectorAll(".startend");
+
+nasaLive.addEventListener("keydown", (event) => {
+  if (event.key === "Tab" && !event.shiftKey) {
+    event.preventDefault();
+    maintext.focus();
+    containers[0].querySelector(".content-container").style.display = "none";
+    previous = null;
+    navToggle();
+  }
+});
+
+focusable.forEach((focusItem) => {
+  focusItem.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      focusItem.click();
+    }
+  });
+});
+
+searchBig.addEventListener("keydown", (event) => {
+  if (event.shiftKey && event.key === "Tab") {
+    event.preventDefault();
+    navButtons[navButtons.length - 3].focus();
+  }
+});
+
+navButtons.forEach((button, index) => {
+  let id = button.dataset.menu;
+  let menu = document.getElementById(id);
+  let content = menu.querySelectorAll(".startend");
+  button.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      currentButton = index;
+    } else if (event.key === "Tab" && !event.shiftKey) {
+      if (window.innerWidth > 800) {
+        if (
+          index === navButtons.length - 3 &&
+          currentButton !== navButtons.length - 3
+        ) {
+          event.preventDefault();
+          searchBig.focus();
+        } else if (document.activeElement === navButtons[currentButton]) {
+          event.preventDefault();
+          content[0].focus();
+        }
+      }
+    }
+  });
+  content.forEach((startend, index) => {
+    startend.addEventListener("keydown", (event) => {
+      if (event.key === "Tab") {
+        console.log(index);
+        if (event.shiftKey && index === 0) {
+          event.preventDefault();
+          navButtons[currentButton].focus();
+        } else if (
+          index === 1 &&
+          currentButton < navButtons.length - 3 &&
+          !event.shiftKey
+        ) {
+          event.preventDefault();
+          navButtons[currentButton + 1].focus();
+          console.log("triggered");
+        }
+      }
+    });
+  });
+});
 
 function visible() {
   if (window.innerWidth > 800) {
@@ -42,20 +115,19 @@ containers.forEach((container, index) => {
     }
     if (previous === 0) {
       navToggle();
-      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflowY = "hidden";
       if (window.innerWidth > 800) {
         contentLeft.style.transform = "none";
         contentRight.style.transform = "none";
       }
     } else {
-      document.body.style.overflow = "auto";
+      document.documentElement.style.overflowY = "auto";
     }
-    console.log(previous);
   });
 });
 
 document.body.addEventListener("click", () => {
-  if (previous !== null && window.innerWidth === 800) {
+  if (previous !== null && window.innerWidth > 800) {
     containers[previous].querySelector(".content-container").style.display =
       "none";
     previous = null;
@@ -70,6 +142,7 @@ let previousbut = 1;
 
 navButtons.forEach((navButton, index) => {
   navButton.addEventListener("click", () => {
+    currentButton = index;
     let id = navButton.dataset.menu;
     let menu = document.getElementById(id);
     if (window.innerWidth > 800) {
@@ -150,10 +223,15 @@ function navToggle() {
 
 let buttons = document.querySelectorAll(".openclose");
 let search = document.querySelector(".search");
+let searchBar = document.getElementById("search-input");
+let closeButton = document.getElementById("close-button");
 
 search.addEventListener("animationend", () => {
   if (search.classList.contains("search-close")) {
     search.style.visibility = "hidden";
+    closeButton.focus();
+  } else {
+    searchBar.focus();
   }
 });
 
