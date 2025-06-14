@@ -5,10 +5,21 @@ let contentLeft = document.querySelector(".content-left");
 let contentRight = document.querySelector(".content-right");
 let previous = null;
 let menuState = null;
-let currentButton = null;
+let currentButton = 1;
 let nasaLive = document.getElementById("nasalive");
+let nasaButton = document.getElementById("nasalivebutton");
 let maintext = document.querySelector(".maintext");
 let searchBig = document.getElementById("searchbar");
+let nocontent = document.querySelector(".nocontent");
+let logo = document.querySelector(".nasa-logo");
+
+nasaButton.addEventListener("keydown", (event) => {
+  if (event.key === "Tab" && !event.shiftKey) {
+    event.preventDefault();
+    logo.focus();
+  }
+});
+
 // let content = document.querySelectorAll(".startend");
 
 nasaLive.addEventListener("keydown", (event) => {
@@ -16,8 +27,10 @@ nasaLive.addEventListener("keydown", (event) => {
     event.preventDefault();
     maintext.focus();
     containers[0].querySelector(".content-container").style.display = "none";
+    if (previous === 0) {
+      navToggle();
+    }
     previous = null;
-    navToggle();
   }
 });
 
@@ -55,6 +68,7 @@ navButtons.forEach((button, index) => {
           event.preventDefault();
           content[0].focus();
         }
+      } else {
       }
     }
   });
@@ -189,6 +203,8 @@ focusable.forEach((el) => {
   el.style.cursor = "pointer";
 });
 
+nocontent.setAttribute("tabindex", "-1");
+
 window.addEventListener("resize", () => {
   if (window.innerWidth > 800 && previous === 0) {
     contentRight.style.transform = "none";
@@ -253,3 +269,16 @@ buttons.forEach((button) => {
 //   search.classList.toggle("search-open");
 // });
 // openstate = "close";
+
+closeButton.addEventListener("keydown", (event) => {
+  if (event.key === "Tab" && !event.shiftKey) {
+    event.preventDefault();
+    maintext.focus();
+    containers[0].querySelector(".content-container").style.display = "none";
+
+    if (previous === 0) {
+      navToggle();
+    }
+    previous = null;
+  }
+});
