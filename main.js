@@ -12,6 +12,20 @@ let maintext = document.querySelector(".maintext");
 let searchBig = document.getElementById("searchbar");
 let nocontent = document.querySelector(".nocontent");
 let logo = document.querySelector(".nasa-logo");
+let back = document.querySelector(".back-btn");
+let leftright = null;
+
+logo.addEventListener("keydown", (event) => {
+  if (
+    event.key === "Tab" &&
+    event.shiftKey &&
+    window.innerWidth < 800 &&
+    previous === 0
+  ) {
+    event.preventDefault();
+    nasaButton.focus();
+  }
+});
 
 nasaButton.addEventListener("keydown", (event) => {
   if (event.key === "Tab" && !event.shiftKey) {
@@ -53,11 +67,12 @@ navButtons.forEach((button, index) => {
   let id = button.dataset.menu;
   let menu = document.getElementById(id);
   let content = menu.querySelectorAll(".startend");
+  let lastLi = menu.querySelector("ul li:last-child");
   button.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      currentButton = index;
-    } else if (event.key === "Tab" && !event.shiftKey) {
-      if (window.innerWidth > 800) {
+    if (window.innerWidth > 800) {
+      if (event.key === "Enter") {
+        currentButton = index;
+      } else if (event.key === "Tab" && !event.shiftKey) {
         if (
           index === navButtons.length - 3 &&
           currentButton !== navButtons.length - 3
@@ -68,28 +83,52 @@ navButtons.forEach((button, index) => {
           event.preventDefault();
           content[0].focus();
         }
-      } else {
+      }
+    } else {
+      currentButton = null;
+      if (event.key === "Enter") {
+        currentButton = index;
       }
     }
   });
   content.forEach((startend, index) => {
     startend.addEventListener("keydown", (event) => {
       if (event.key === "Tab") {
-        console.log(index);
-        if (event.shiftKey && index === 0) {
-          event.preventDefault();
-          navButtons[currentButton].focus();
-        } else if (
-          index === 1 &&
-          currentButton < navButtons.length - 3 &&
-          !event.shiftKey
-        ) {
-          event.preventDefault();
-          navButtons[currentButton + 1].focus();
-          console.log("triggered");
+        if (window.innerWidth > 800) {
+          if (event.shiftKey && index === 0) {
+            event.preventDefault();
+            navButtons[currentButton].focus();
+          } else if (
+            index === 1 &&
+            currentButton < navButtons.length - 3 &&
+            !event.shiftKey
+          ) {
+            event.preventDefault();
+            navButtons[currentButton + 1].focus();
+            console.log("triggered");
+          }
+        } else {
+          if (!event.shiftKey && index === 1) {
+            event.preventDefault();
+            back.focus();
+          }
         }
       }
     });
+  });
+  if (lastLi && window.innerWidth < 800) {
+    lastLi.addEventListener("keydown", (event) => {
+      if (event.key === "Tab" && !event.shiftKey) {
+        event.preventDefault();
+        back.focus();
+      }
+    });
+  }
+  back.addEventListener("keydown", (event) => {
+    if (event.key === "Tab" && event.shiftKey && lastLi) {
+      event.preventDefault();
+      lastLi.focus();
+    }
   });
 });
 
@@ -151,7 +190,7 @@ document.body.addEventListener("click", () => {
 let navprevious = "missions";
 let missions = document.getElementById("missions");
 let missionsLeft = missions.querySelector(".missions-left");
-let back = document.querySelector(".back-btn");
+
 let previousbut = 1;
 
 navButtons.forEach((navButton, index) => {
@@ -280,5 +319,19 @@ closeButton.addEventListener("keydown", (event) => {
       navToggle();
     }
     previous = null;
+  }
+});
+
+contentRight.addEventListener("transitionend", (event) => {
+  if (event.propertyName === "transform" && menuState === "leftoff") {
+    console.log("right masuk");
+    back.focus();
+  }
+});
+
+contentLeft.addEventListener("transitionend", (event) => {
+  if (event.propertyName === "transform" && menuState === "lefton") {
+    console.log("left masuk");
+    navButtons[currentButton].focus();
   }
 });
